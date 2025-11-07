@@ -59,17 +59,12 @@ A comprehensive **web-based Student Management System** built with Flask and SQL
    cd StudentManagementSystem
    ```
 
-2. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Run the Application**
+2. **Run the Application**
    ```bash
    python app.py
    ```
 
-4. **Access the Application**
+3. **Access the Application**
    Open your web browser and navigate to:
    ```
    http://localhost:5000
