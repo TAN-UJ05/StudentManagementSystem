@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Fee Management - Student Management System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>Fee Management</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Filter Fee Records</h5>
+            </div>
+            <div class="card-body">
+                <div class="btn-group" role="group">
+                    <a href="{{ url_for('manage_fees', status='all') }}" 
+                       class="btn btn-{{ 'primary' if status_filter == 'all' else 'outline-primary' }}">
+                        All Records
+                    </a>
+                    <a href="{{ url_for('manage_fees', status='paid') }}" 
+                       class="btn btn-{{ 'success' if status_filter == 'paid' else 'outline-success' }}">
+                        Paid
+                    </a>
+                    <a href="{{ url_for('manage_fees', status='unpaid') }}" 
+                       class="btn btn-{{ 'warning' if status_filter == 'unpaid' else 'outline-warning' }}">
+                        Unpaid
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                {% if fee_records %}
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Course</th>
+                                    <th>Semester</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Due Date</th>
+                                    <th>Payment Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for fee in fee_records %}
+                                <tr>
+                                    <td>{{ fee.student_id }}</td>
+                                    <td>{{ fee.name }}</td>
+                                    <td>{{ fee.course_name }}</td>
+                                    <td>Semester {{ fee.semester }}</td>
+                                    <td>₹{{ "%.2f"|format(fee.amount) }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if fee.payment_status == 'paid' else 'warning' }}">
+                                            {{ fee.payment_status|title }}
+                                        </span>
+                                    </td>
+                                    <td>{{ fee.due_date }}</td>
+                                    <td>{{ fee.payment_date or 'Not Paid' }}</td>
+                                    <td>
+                                        {% if fee.payment_status == 'unpaid' %}
+                                        <form method="POST" action="{{ url_for('update_fee_status', fee_id=fee.id) }}" class="d-inline">
+                                            <input type="hidden" name="payment_status" value="paid">
+                                            <button type="submit" class="btn btn-success btn-sm" 
+                                                    onclick="return confirm('Mark fee as paid for {{ fee.name }}?')">
+                                                Mark Paid
+                                            </button>
+                                        </form>
+                                        {% else %}
+                                        <form method="POST" action="{{ url_for('update_fee_status', fee_id=fee.id) }}" class="d-inline">
+                                            <input type="hidden" name="payment_status" value="unpaid">
+                                            <button type="submit" class="btn btn-warning btn-sm" 
+                                                    onclick="return confirm('Mark fee as unpaid for {{ fee.name }}?')">
+                                                Mark Unpaid
+                                            </button>
+                                        </form>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <p class="text-muted">No fee records found.</p>
+                        {% if status_filter != 'all' %}
+                            <a href="{{ url_for('manage_fees', status='all') }}" class="btn btn-primary">View All Records</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

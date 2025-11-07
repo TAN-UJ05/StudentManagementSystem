@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Attendance - Student Management System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>Attendance Management</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center">
+                <h5 class="card-title">Current Month</h5>
+                <h2 class="card-text">{{ attendance_summary.present_days or 0 }}/{{ attendance_summary.total_days or 0 }}</h2>
+                <p class="mb-0">Present Days</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success">
+            <div class="card-body text-center">
+                <h5 class="card-title">Today's Status</h5>
+                <h2 class="card-text">
+                    {% if today_attendance %}
+                        {{ today_attendance.status|title }}
+                    {% else %}
+                        Not Marked
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-info">
+            <div class="card-body text-center">
+                <h5 class="card-title">Attendance Rate</h5>
+                <h2 class="card-text">
+                    {% if attendance_summary.total_days and attendance_summary.total_days > 0 %}
+                        {{ "%.1f"|format((attendance_summary.present_days / attendance_summary.total_days) * 100) }}%
+                    {% else %}
+                        0%
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Mark Today's Attendance</h5>
+            </div>
+            <div class="card-body">
+                {% if today_attendance %}
+                    <div class="alert alert-info">
+                        <strong>Attendance already marked for today:</strong> {{ today_attendance.status|title }}
+                    </div>
+                {% else %}
+                    <form method="POST">
+                        <div class="d-grid gap-2">
+                            <button type="submit" name="status" value="present" class="btn btn-success btn-lg">
+                                Mark Present
+                            </button>
+                            <button type="submit" name="status" value="absent" class="btn btn-danger btn-lg">
+                                Mark Absent
+                            </button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Attendance (Last 30 Days)</h5>
+            </div>
+            <div class="card-body">
+                {% if attendance_history %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in attendance_history %}
+                                <tr>
+                                    <td>{{ record.attendance_date }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if record.status == 'present' else 'danger' }}">
+                                            {{ record.status|title }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">No attendance records found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

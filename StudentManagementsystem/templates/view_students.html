@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - Student Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="text-center">Student Profile</h4>
+            </div>
+            <div class="card-body">
+                {% if student %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Student ID:</strong></label>
+                            <p class="form-control-plaintext">{{ student.student_id }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Full Name:</strong></label>
+                            <p class="form-control-plaintext">{{ student.name }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Email:</strong></label>
+                            <p class="form-control-plaintext">{{ student.email }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Phone:</strong></label>
+                            <p class="form-control-plaintext">{{ student.phone or 'N/A' }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Course:</strong></label>
+                            <p class="form-control-plaintext">{{ student.course_name or 'Not Assigned' }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Semester:</strong></label>
+                            <p class="form-control-plaintext">{{ student.semester }}</p>
+                        </div>
+                        {% if student.fee_amount %}
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Course Fee:</strong></label>
+                            <p class="form-control-plaintext">₹{{ "%.2f"|format(student.fee_amount) }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-muted text-center">No profile information available.</p>
+                {% endif %}
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('student_dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

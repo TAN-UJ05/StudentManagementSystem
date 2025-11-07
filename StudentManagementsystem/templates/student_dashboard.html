@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - Student Management System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>Welcome, {{ session.student_name }}!</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Attendance Summary -->
+    <div class="col-md-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center">
+                <h5 class="card-title">Monthly Attendance</h5>
+                <h2 class="card-text">{{ attendance_summary.present_days or 0 }}/{{ attendance_summary.total_days or 0 }}</h2>
+                <p class="mb-0">Present Days</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Today's Attendance -->
+    <div class="col-md-4">
+        <div class="card text-white bg-success">
+            <div class="card-body text-center">
+                <h5 class="card-title">Today's Status</h5>
+                <h2 class="card-text">
+                    {% if today_attendance %}
+                        {{ today_attendance.status|title }}
+                    {% else %}
+                        Not Marked
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Fee Status -->
+    <div class="col-md-4">
+        <div class="card text-white bg-info">
+            <div class="card-body text-center">
+                <h5 class="card-title">Fee Status</h5>
+                <h2 class="card-text">
+                    {% if fee_status %}
+                        {{ fee_status.payment_status|title }}
+                    {% else %}
+                        Unknown
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>Your Profile Information</h5>
+            </div>
+            <div class="card-body">
+                {% if student %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Student ID:</strong> {{ student.student_id }}</p>
+                        <p><strong>Name:</strong> {{ student.name }}</p>
+                        <p><strong>Email:</strong> {{ student.email }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Phone:</strong> {{ student.phone or 'N/A' }}</p>
+                        <p><strong>Course:</strong> 
+                            {% if student.course_name %}
+                                {{ student.course_name }}
+                            {% else %}
+                                <span class="text-danger">Not Assigned</span>
+                            {% endif %}
+                        </p>
+                        <p><strong>Semester:</strong> {{ student.semester }}</p>
+                        {% if student.fee_amount %}
+                        <p><strong>Course Fee:</strong> ₹{{ "%.2f"|format(student.fee_amount) }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-muted">No profile information available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('student_attendance') }}" class="btn btn-primary">Mark Attendance</a>
+                    <a href="{{ url_for('student_fees') }}" class="btn btn-info">View Fee Details</a>
+                    <a href="{{ url_for('student_profile') }}" class="btn btn-secondary">View Full Profile</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Actions -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5>Today's Actions</h5>
+            </div>
+            <div class="card-body">
+                {% if not today_attendance %}
+                <div class="alert alert-warning">
+                    <strong>Attendance Pending!</strong>
+                    <p class="mb-2">Don't forget to mark your attendance for today.</p>
+                    <a href="{{ url_for('student_attendance') }}" class="btn btn-warning btn-sm">Mark Now</a>
+                </div>
+                {% else %}
+                <div class="alert alert-success">
+                    <strong>Attendance Marked!</strong>
+                    <p>You are marked as <strong>{{ today_attendance.status }}</strong> for today.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

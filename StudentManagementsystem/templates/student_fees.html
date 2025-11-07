@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Fee Details - Student Management System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>Fee Management</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Course Fee Information</h5>
+            </div>
+            <div class="card-body">
+                {% if student_course %}
+                <div class="row">
+                    <div class="col-6">
+                        <strong>Course:</strong>
+                    </div>
+                    <div class="col-6">
+                        {{ student_course.course_name }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <strong>Semester:</strong>
+                    </div>
+                    <div class="col-6">
+                        {{ student_course.semester }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <strong>Annual Fee:</strong>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="text-primary">₹{{ "%.2f"|format(student_course.fee_amount) }}</h4>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-muted">No course information available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Fee Payment History</h5>
+            </div>
+            <div class="card-body">
+                {% if fee_history %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Semester</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Due Date</th>
+                                    <th>Payment Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for fee in fee_history %}
+                                <tr>
+                                    <td>Semester {{ fee.semester }}</td>
+                                    <td>₹{{ "%.2f"|format(fee.amount) }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if fee.payment_status == 'paid' else 'warning' }}">
+                                            {{ fee.payment_status|title }}
+                                        </span>
+                                    </td>
+                                    <td>{{ fee.due_date }}</td>
+                                    <td>{{ fee.payment_date or 'Not Paid' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">No fee records found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
