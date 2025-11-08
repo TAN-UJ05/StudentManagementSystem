@@ -91,47 +91,33 @@ StudentManagementSystem/
 │
 ├── 📄 app.py                          # Main Flask application
 ├── 📄 database.py                     # Database configuration
-├── 📄 requirements.txt                # Python dependencies
 │
 ├── 📁 static/
 │   └── 📁 css/
 │       └── 📄 style.css              # Custom styles
 │
+│   └── 📁 js/
+│       └── 📄 script.js              
+│
 └── 📁 templates/
     │
     ├── 📄 base.html                   # Base layout template
     ├── 📄 login.html                  # Login page
-    │
-    ├── 📁 admin/                      # Admin panel templates
-    │   │
-    │   ├── 📄 dashboard.html          # Admin dashboard (renamed from admin_dashboard.html)
-    │   │
-    │   ├── 📁 students/               # Student management
-    │   │   ├── 📄 manage.html         # Manage students (renamed from manage_students.html)
-    │   │   ├── 📄 add.html            # Add student (renamed from add_student.html)
-    │   │   ├── 📄 edit.html           # Edit student (renamed from edit_student.html)
-    │   │   └── 📄 temp_password.html  # Temporary password display
-    │   │
-    │   ├── 📁 courses/                # Course management
-    │   │   ├── 📄 manage.html         # Manage courses (renamed from manage_courses.html)
-    │   │   ├── 📄 add.html            # Add course (renamed from add_course.html)
-    │   │   └── 📄 edit.html           # Edit course (renamed from edit_course.html)
-    │   │
-    │   ├── 📁 fees/                   # Fee management
-    │   │   └── 📄 manage.html         # Manage fees (renamed from manage_fees.html)
-    │   │
-    │   └── 📁 attendance/             # Attendance management
-    │       └── 📄 view.html           # View attendance (renamed from admin_attendance.html)
-    │
-    ├── 📁 student/                    # Student panel templates
-    │   │
-    │   ├── 📄 dashboard.html          # Student dashboard (renamed from student_dashboard.html)
-    │   ├── 📄 profile.html            # Student profile (renamed from view_students.html)
-    │   ├── 📄 attendance.html         # Student attendance (renamed from student_attendance.html)
-    │   └── 📄 fees.html               # Student fees (renamed from student_fees.html)
-    │
-    └── 📁 shared/                     # Shared templates
-        └── 📄 reset_password_confirm.html  # Password reset confirmation
+    ├── 📄 dashboard.html              # Admin dashboard (renamed from admin_dashboard.html)
+    ├── 📄 manage.html                 # Manage students (renamed from manage_students.html)
+    ├── 📄 add.html                    # Add student (renamed from add_student.html)
+    ├── 📄 edit.html                   # Edit student (renamed from edit_student.html)
+    │   │   └── 📄 temp_password.html        # Temporary password display
+    ├── 📄 manage.html                 # Manage courses (renamed from manage_courses.html)
+    ├── 📄 add.html                    # Add course (renamed from add_course.html)
+    │   │   └── 📄 edit.html                 # Edit course (renamed from edit_course.html)
+    ├── 📄 manage.html                 # Manage fees (renamed from manage_fees.html)
+    ├── 📄 view.html                   # View attendance (renamed from admin_attendance.html)
+    ├── 📄 dashboard.html              # Student dashboard (renamed from student_dashboard.html)
+    ├── 📄 profile.html                # Student profile (renamed from view_students.html)
+    ├── 📄 attendance.html             # Student attendance (renamed from student_attendance.html)
+    │   └── 📄 fees.html                     # Student fees (renamed from student_fees.html)
+    ├── 📄 reset_password_confirm.html # Password reset confirmation
 
 ```
 
